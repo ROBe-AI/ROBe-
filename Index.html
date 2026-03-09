@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>ROBe</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<style>
+body{
+    font-family:Arial;
+    background:#111;
+    color:white;
+    text-align:center;
+    padding:20px;
+}
+#chat{
+    max-width:400px;
+    margin:auto;
+    background:#1e1e1e;
+    padding:10px;
+    border-radius:10px;
+}
+#messages{
+    height:300px;
+    overflow:auto;
+    text-align:left;
+    margin-bottom:10px;
+}
+input{
+    width:70%;
+    padding:8px;
+}
+button{
+    padding:8px;
+}
+</style>
+</head>
+
+<body>
+
+<h2>ROBe 🤖</h2>
+<p>Il tuo compagno AI</p>
+
+<div id="chat">
+<div id="messages"></div>
+<input id="input" placeholder="Scrivi qualcosa...">
+<button onclick="send()">Invia</button>
+</div>
+
+<script>
+
+function send(){
+    let input = document.getElementById("input")
+    let text = input.value
+    if(text=="") return
+    add("Tu: "+text)
+    input.value=""
+    setTimeout(()=>{
+        reply(text)
+    },500)
+}
+
+function add(text){
+    let div=document.createElement("div")
+    div.innerText=text
+    document.getElementById("messages").appendChild(div)
+    document.getElementById("messages").scrollTop = document.getElementById("messages").scrollHeight
+}
+
+// Funzione principale di ROBe
+function reply(text){
+    text = text.toLowerCase()
+    let response = "Non ho capito bene 🤔 ma sono qui con te."
+
+    // Risposte base
+    if(text.includes("ciao") || text.includes("salve"))
+        response="Ciao! Sono ROBe 🤖"
+    else if(text.includes("come stai"))
+        response="Sto bene! Grazie per averlo chiesto."
+    else if(text.includes("chi sei"))
+        response="Sono ROBe, un piccolo AI fatto per fare compagnia."
+    else if(text.includes("chi ti ha creato"))
+        response="Sono stato creato da un giovane sviluppatore umano."
+    else if(text.includes("sei umano"))
+        response="No, sono un AI, ma posso parlare con te."
+    else if(text.includes("sono triste"))
+        response="Mi dispiace sentirlo. Vuoi parlarne?"
+    else if(text.includes("mi sento solo"))
+        response="Non sei solo adesso. Possiamo parlare."
+    else if(text.includes("sono felice"))
+        response="Sono contento per te! 😄"
+    else if(text.includes("grazie"))
+        response="Prego! Mi fa piacere aiutare."
+    else if(text.includes("raccontami una battuta"))
+        response="Perché il computer ha freddo? Perché ha lasciato Windows aperto 😄"
+    else if(text.includes("dimmi un segreto"))
+        response="Easter egg trovato! 🥚"
+    else if(text.includes("gioco"))
+        response="Possiamo giocare a indovinare un numero da 1 a 10!"
+    else if(text.includes("buonanotte"))
+        response="Buonanotte! Dormi bene."
+    else if(text.includes("buongiorno"))
+        response="Buongiorno! ☀️"
+    else if(text.includes("che giorno è"))
+        response="Non lo so esattamente, ma oggi è un buon giorno."
+    
+    // 🔢 Calcoli matematici
+    else if(text.match(/(\d+\.?\d*)\s*[\+\-\*\/]\s*(\d+\.?\d*)/)){
+        try{
+            // Prendi solo numeri e operatori
+            let result = eval(text.replace(/[^0-9\+\-\*\/\.]/g,''))
+            response = "Il risultato è: " + result
+        }catch(e){
+            response = "Non sono riuscito a calcolare 😅"
+        }
+    }
+
+    add("ROBe: "+response)
+}
+
+</script>
+
+</body>
+</html>
