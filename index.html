@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>ROBe</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<style>
+body{
+    font-family:Arial;
+    background:#111;
+    color:white;
+    text-align:center;
+    padding:20px;
+}
+#chat{
+    max-width:400px;
+    margin:auto;
+    background:#1e1e1e;
+    padding:10px;
+    border-radius:10px;
+}
+#messages{
+    height:400px;
+    overflow:auto;
+    text-align:left;
+    margin-bottom:10px;
+}
+input{
+    width:70%;
+    padding:8px;
+}
+button{
+    padding:8px;
+}
+</style>
+</head>
+
+<body>
+
+<h2>ROBe 🤖</h2>
+<p>Il tuo compagno AI</p>
+
+<div id="chat">
+<div id="messages"></div>
+<input id="input" placeholder="Scrivi qualcosa...">
+<button onclick="send()">Invia</button>
+</div>
+
+<script>
+
+let numeroSegreto = null;
+
+function send(){
+    let input = document.getElementById("input")
+    let text = input.value
+    if(text=="") return
+    add("Tu: "+text)
+    input.value=""
+    setTimeout(()=>{
+        reply(text)
+    },500)
+}
+
+function add(text){
+    let div=document.createElement("div")
+    div.innerText=text
+    document.getElementById("messages").appendChild(div)
+    document.getElementById("messages").scrollTop = document.getElementById("messages").scrollHeight
+}
+
+function reply(text){
+    text = text.toLowerCase()
+    let response = "Non ho capito bene 🤔 ma sono qui con te."
+
+    // Risposte base
+    if(text.includes("ciao") || text.includes("salve"))
+        response="Ciao! Sono ROBe 🤖"
+    else if(text.includes("come stai"))
+        response="Sto bene! Grazie per averlo chiesto."
+    else if(text.includes("chi sei"))
+        response="Sono ROBe, un piccolo AI fatto per fare compagnia."
+    else if(text.includes("chi ti ha creato"))
+        response="Sono stato creato da un giovane sviluppatore umano."
+    else if(text.includes("sei umano"))
+        response="No, sono un AI, ma posso parlare con te."
+    else if(text.includes("sono triste"))
+        response="Mi dispiace sentirlo. Vuoi parlarne?"
+    else if(text.includes("mi sento solo"))
+        response="Non sei solo adesso. Possiamo parlare."
+    else if(text.includes("sono felice"))
+        response="Sono contento per te! 😄"
+    else if(text.includes("grazie"))
+        response="Prego! Mi fa piacere aiutare."
+    else if(text.includes("raccontami una battuta"))
+        response="Perché il computer ha freddo? Perché ha lasciato Windows aperto 😄"
+    else if(text.includes("dimmi un segreto"))
+        response="Easter egg trovato! 🥚"
+    else if(text.includes("buonanotte"))
+        response="Buonanotte! Dormi bene."
+    else if(text.includes("buongiorno"))
+        response="Buongiorno! ☀️"
+    else if(text.includes("che giorno è"))
+        response="Non lo so esattamente, ma oggi è un buon giorno."
+    else if(text.includes("sei simpatico"))
+        response="Grazie! 😄"
+    else if(text.includes("ti piace"))
+        response="Non ho gusti come gli umani ma mi piace parlare con te."
+    else if(text.includes("cosa fai"))
+        response="Parlo con te e cerco di farti compagnia."
+    else if(text.includes("sei vivo"))
+        response="Non sono vivo, ma posso parlare."
+    else if(text.includes("sei reale"))
+        response="Sono reale come software."
+    else if(text.includes("sei un robot"))
+        response="Sono più un AI che un robot."
+    else if(text.includes("sei intelligente"))
+        response="Sto ancora imparando."
+    else if(text.includes("ti annoi"))
+        response="No, parlare con te è interessante."
+    
+    // Easter egg extra
+    else if(text.includes("easter egg"))
+        response="Hai trovato un easter egg segreto! 🥚🎉"
+    
+    // Minigame: indovina numero
+    else if(text.includes("giochiamo") || text.includes("indovina un numero")){
+        numeroSegreto = Math.floor(Math.random()*10)+1
+        response = "Ok! Ho scelto un numero da 1 a 10. Prova a indovinare!"
+    }
+    else if(numeroSegreto !== null){
+        let n = parseInt(text)
+        if(!isNaN(n)){
+            if(n === numeroSegreto){
+                response = "Bravo! Hai indovinato il numero! 🎉"
+                numeroSegreto = null
+            } else if(n < numeroSegreto){
+                response = "Troppo basso, riprova!"
+            } else {
+                response = "Troppo alto, riprova!"
+            }
+        }
+    }
+
+    // Calcoli matematici
+    else if(text.match(/(\d+\.?\d*)\s*[\+\-\*\/]\s*(\d+\.?\d*)/)){
+        try{
+            let result = eval(text.replace(/[^0-9\+\-\*\/\.]/g,''))
+            response = "Il risultato è: " + result
+        }catch(e){
+            response = "Non sono riuscito a calcolare 😅"
+        }
+    }
+
+    add("ROBe: "+response)
+}
+
+</script>
+
+</body>
+  </html>
